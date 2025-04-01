@@ -1,23 +1,36 @@
 version: '3.8'
 
 services:
+  # Боевая база
   db:
-    #имя контейнера
     container_name: 'db'
-    #версия образа для скачивания
     image: postgres:14.1-alpine
     restart: always
-    #переменные окружения
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=postgres
     ports:
-      #слева порт ОС, справа порт контейнера
-      - "5434:5432"  
+    #слева порт ОС(компа)/ справа порт контейнера
+      - "5434:5432"
     networks:
       - custom
-#сеть и драйвер
+
+  # Тестовая база данных
+  db_test:
+    container_name: 'db_test'
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres_test
+      - POSTGRES_PASSWORD=postgres_test
+      - POSTGRES_DB=postgres_test
+    ports:
+      - "5437:5432"
+    networks:
+      - custom  
+
+# Определение сети
 networks:
   custom:
     driver: bridge
